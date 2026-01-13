@@ -24,6 +24,15 @@ class View:
     def update(self):
         self.page.update()
 
+    def popola_dd_anno(self, annate):
+        self.dd_anno.options.clear()
+
+        for anno in annate:
+            self.dd_anno.options.append(ft.dropdown.Option(str(anno)))
+
+        self.update()
+
+
     def load_interface(self):
         """ Crea e aggiunge gli elementi di UI alla pagina e la aggiorna. """
         # Intestazione
@@ -32,7 +41,13 @@ class View:
         # TODO
 
         # Riga 1
-        self.dd_anno = ft.Dropdown(label="Anno", width=200, alignment=ft.alignment.top_left)
+        self.dd_anno = ft.Dropdown(
+            label="Anno",
+            width=200,
+            alignment=ft.alignment.top_left,
+            on_change=self.controller.read_dd_anno if self.controller else None,
+            options=[ft.dropdown.Option(str(y)) for y in self.controller.popola_dd_anno()]
+        )
 
         row1 = ft.Row([ft.Container(self.txt_titolo, width=500),
                                ft.Container(None, width=0),
